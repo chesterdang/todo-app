@@ -9,8 +9,8 @@ services:
     ports:
       - 3000:3000
     env_file: .env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
 
   db:
     image: mysql:8
@@ -21,6 +21,5 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: rootpass
     volumes:
-      - .docker/data/db:/var/lib/mysql/
-    user: 1001:1001
+      - ./data:/var/lib/mysql/
       
