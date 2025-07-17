@@ -1,5 +1,19 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml '''
+                apiVersion: V1
+                kind: Pod
+                spec: 
+                    containers:
+                    - name: maven
+                      image: maven:alpine
+                      command: 
+                      - cat
+                      tty: true
+            '''
+        }
+    }
     stages {
         stage('SCM') {
             steps {
