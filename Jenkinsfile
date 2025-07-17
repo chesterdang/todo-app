@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        kubernetes {
-            label 'jenkins-jenkins-agent'
-        }
-    }
+    agent any
     stages {
         stage('SCM') {
             steps {
@@ -20,7 +16,25 @@ pipeline {
                 }
             }
         }
-        // Add your build stages here...
+        stage('Build Backend Docker Image') {
+            steps {
+                dir('backend') {
+                    script {
+                        docker.build('chesterdang/todo-app-backend:latest', '.')
+                    }
+                }
+            }
+        }
+        stage('Build Frontend Docker Image') {
+            steps {
+                dir('frontend') {
+                    script {
+                        docker.build('chesterdang/todo-app-frontend:latest', '.')
+                    }
+                }
+            }
+        }
+        // Add push or deploy stages as needed
     }
 }
 
