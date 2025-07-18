@@ -1,6 +1,29 @@
 pipeline {
     agent {
         kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+  project-name: demo
+spec:
+  serviceAccountName: k8s-builder
+  containers:
+    - name: docker
+      image: docker:23.0.4-cli
+      tty: true
+    - name: helm
+      image: alpine/helm:3.12.0
+      command:
+        - /bin/cat
+      tty: true
+    - name: gh
+      image: maniator/gh:v2.29.0
+      command:
+        - /bin/cat
+      tty: true
+'''
         }
     }
     stages {
